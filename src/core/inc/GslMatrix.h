@@ -29,10 +29,12 @@
     \brief QUESO matrix class using GSL.
 */
 
+#include <queso/Defines.h>
+#include <queso/GslVector.h>
 #include <queso/Matrix.h>
+
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_permutation.h>
-#include <queso/GslVector.h>
 
 namespace QUESO {
 
@@ -49,10 +51,6 @@ class GslMatrix : public Matrix
 public:
  //! @name Constructor/Destructor methods
   //@{
-
-  //! Default Constructor
-  /*! Creates an empty matrix vector of no dimension. It should not be used by user.*/
-  GslMatrix();
 
   //! Shaped Constructor: creates a shaped matrix with \c numCols columns.
   GslMatrix(const BaseEnvironment& env,
@@ -370,6 +368,10 @@ GslVector& x) internally.*/
  //@}
 
 private:
+  //! Default Constructor
+  /*! Creates an empty matrix vector of no dimension. It should not be used by user.*/
+  GslMatrix();
+
   //! In this function \c this matrix receives a copy of matrix \c src.
   void              copy                      (const GslMatrix& src);
 

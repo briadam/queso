@@ -33,9 +33,11 @@
 #include <queso/VectorMdf.h>
 #include <queso/SequenceOfVectors.h>
 #include <queso/InfoTheory.h>
-#include <gsl/gsl_sf_psi.h> // todo: take specificity of gsl_, i.e., make it general (gsl or boost or etc)
 
 namespace QUESO {
+
+class GslVector;
+class GslMatrix;
 
 //*****************************************************
 // Concatenated class [RV-11]
@@ -48,7 +50,7 @@ namespace QUESO {
  * (samples) from this concatenated vector RV. It is used, for instance, to concatenate priors from two or
  * more RVs, where one of them has a uniform distribution whereas the other one(s) has a Gaussian distribution. */
 
-template<class V, class M>
+template <class V = GslVector, class M = GslMatrix>
 class ConcatenatedVectorRV : public BaseVectorRV<V,M> {
 public:
   //! @name Constructor/Destructor methods

@@ -33,9 +33,11 @@
 #include <queso/VectorMdf.h>
 #include <queso/SequenceOfVectors.h>
 #include <queso/InfoTheory.h>
-#include <gsl/gsl_sf_psi.h> // todo: take specificity of gsl_, i.e., make it general (gsl or boost or etc)
 
 namespace QUESO {
+
+class GslVector;
+class GslMatrix;
 
 //*****************************************************
 // Beta class [RV-05]
@@ -57,7 +59,7 @@ namespace QUESO {
  */
 
 
-template<class V, class M>
+template <class V = GslVector, class M = GslMatrix>
 class BetaVectorRV : public BaseVectorRV<V,M> {
 public:
     //! @name Constructor/Destructor methods

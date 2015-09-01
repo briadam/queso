@@ -50,7 +50,7 @@ namespace QUESO {
  * as operations that can be carried over them, e.g., calculation of means,
  * correlation  and covariance matrices. */
 
-template <class T>
+template <class T = double>
 class ScalarSequence
 {
 public:
@@ -485,6 +485,15 @@ private:
   //! Copies the scalar sequence \c src to \c this.
   /*! This routine deletes all stored computed scalars. */
   void         copy                         (const ScalarSequence<T>& src);
+
+  //! Helper function to write header info for matlab files from all chains
+  void writeUnifiedMatlabHeader(std::ofstream & ofs, double sequenceSize) const;
+
+  //! Helper function to write header info for matlab files from one chain
+  void writeSubMatlabHeader(std::ofstream & ofs, double sequenceSize) const;
+
+  //! Helper function to write txt info for matlab files
+  void writeTxtHeader(std::ofstream & ofs, double sequenceSize) const;
 
   //! Extracts a sequence of scalars.
   /*! The sequence of scalars has size \c numPos, and it will be extracted starting at position

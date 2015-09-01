@@ -29,9 +29,11 @@
 
 #include <queso/Environment.h>
 #include <queso/SequenceStatisticalOptions.h>
+#include <queso/BoostInputOptionsParser.h>
 #define UQ_ML_SAMPLING_L_FILENAME_FOR_NO_FILE "."
 
 // _ODV = option default value
+#define UQ_ML_SAMPLING_L_HELP                                                 ""
 #ifdef ML_CODE_HAS_NEW_RESTART_CAPABILITY
 #else
 #define UQ_ML_SAMPLING_L_CHECKPOINT_OUTPUT_FILE_NAME_ODV                      UQ_ML_SAMPLING_L_FILENAME_FOR_NO_FILE
@@ -123,7 +125,7 @@ public:
   //MLSamplingLevelOptions(const MLSamplingLevelOptions& inputOptions);
 
   //! Destructor
- ~MLSamplingLevelOptions();
+  virtual ~MLSamplingLevelOptions();
   //@}
 
  //! @name Misc method
@@ -136,13 +138,16 @@ public:
 
   //! @name I/O methods
   //@{
+  //!  It prints the option values.
   //! It scans the option values from the options input file.
   void scanOptionsValues(const MLSamplingLevelOptions* defaultOptions);
 
-  //!  It prints the option values.
   void print            (std::ostream& os) const;
   //@}
   std::string                        m_prefix;
+
+  //! If non-empty string, print options and values to output file
+  std::string m_help;
 
 #ifdef ML_CODE_HAS_NEW_RESTART_CAPABILITY
 #else
@@ -242,6 +247,9 @@ public:
   std::string                        m_rawChainDataOutputFileName;
 
   //! Type of output file for raw chain.
+  /*!
+   * See MhOptionsValues::m_rawChainDataOutputFileType
+   */
   std::string                        m_rawChainDataOutputFileType;
 
   //! Whether or not subEnvs will write to output file for raw chain.
@@ -346,15 +354,12 @@ public:
 private:
   //! Copies the option values from \c srcOptions to \c this.
   void   copyOptionsValues(const MLSamplingLevelOptions& srcOptions);
-
-  //! Defines the options for the Multilevel generator of samples as the default options.
-  void   defineMyOptions  (po::options_description& optionsDesc) const;
-
-  //! Gets the sequence options defined to the Multilevel algorithm.
-  void   getMyOptionValues(po::options_description& optionsDesc);
+  void getAllOptions();
+  void defineAllOptions();
 
   const BaseEnvironment&        m_env;
-  po::options_description*      m_optionsDesc;
+
+  BoostInputOptionsParser * m_parser;
 
   std::string                   m_option_help;
 
@@ -391,7 +396,10 @@ private:
   std::string                   m_option_rawChain_measureRunTimes;
   std::string                   m_option_rawChain_dataOutputPeriod;
   std::string                   m_option_rawChain_dataOutputFileName;
+
+  //! Option name for MLSamplingLevelOptions::m_rawChainDataOutputFileType.  Option name is m_prefix + "ml_rawChain_dataOutputFileType"
   std::string                   m_option_rawChain_dataOutputFileType;
+
   std::string                   m_option_rawChain_dataOutputAllowAll;
   std::string                   m_option_rawChain_dataOutputAllowedSet;
 #ifdef QUESO_USES_SEQUENCE_STATISTICAL_OPTIONS
@@ -427,9 +435,13 @@ private:
   std::string                   m_option_am_eta;
   std::string                   m_option_am_epsilon;
   std::string                   m_option_doLogitTransform;
+
+  void checkOptions(const BaseEnvironment * env);
+
+  friend std::ostream & operator<<(std::ostream & os,
+      const MLSamplingLevelOptions & obj);
 };
 
-std::ostream& operator<<(std::ostream& os, const MLSamplingLevelOptions& obj);
 
 }  // End namespace QUESO
 

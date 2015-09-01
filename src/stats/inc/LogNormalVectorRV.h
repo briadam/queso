@@ -33,9 +33,11 @@
 #include <queso/VectorMdf.h>
 #include <queso/SequenceOfVectors.h>
 #include <queso/InfoTheory.h>
-#include <gsl/gsl_sf_psi.h> // todo: take specificity of gsl_, i.e., make it general (gsl or boost or etc)
 
 namespace QUESO {
+
+class GslVector;
+class GslMatrix;
 
 //*****************************************************
 // LogNormal class [RV-10]
@@ -52,7 +54,7 @@ namespace QUESO {
  * where  the parameters denoted \f$ \mu \f$ and \f$ \sigma \f$ are, respectively, the mean and standard
  * deviation of the  variable's natural logarithm; and \c x>0.  */
 
-template<class V, class M>
+template <class V = GslVector, class M = GslMatrix>
 class LogNormalVectorRV : public BaseVectorRV<V,M> {
 public:
     //! @name Constructor/Destructor methods

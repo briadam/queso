@@ -33,13 +33,12 @@
 #include <queso/VectorMdf.h>
 #include <queso/SequenceOfVectors.h>
 #include <queso/InfoTheory.h>
-#include <gsl/gsl_sf_psi.h> // todo: take specificity of gsl_, i.e., make it general (gsl or boost or etc)
 
 namespace QUESO {
 
-//*****************************************************
-// Wigner class [RV-09]
-//*****************************************************
+class GslVector;
+class GslMatrix;
+
 /*!
  * \class WignerVectorRV
  * \brief A class representing a vector RV constructed via Wigner distribution.
@@ -50,7 +49,7 @@ namespace QUESO {
  * \todo: WignerVectorRealizer.realization() is not yet available, thus this class does
  * nothing. */
 
-template<class V, class M>
+template <class V = GslVector, class M = GslMatrix>
 class WignerVectorRV : public BaseVectorRV<V,M> {
 public:
 

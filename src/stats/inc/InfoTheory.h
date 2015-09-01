@@ -30,7 +30,6 @@
 
 #include <ANN/ANN.h>
 #include <ANN/ANNx.h>
-#include <gsl/gsl_sf_psi.h>
 
 // TODO: create InfoTheoryOptions
 #define UQ_INFTH_ANN_NO_SMP        10000
@@ -61,7 +60,7 @@ double computeMI_ANN( ANNpointArray dataXY,
 // Function: estimateMI_ANN (using a joint)
 // (Mutual Information)
 //*****************************************************
-template<template <class P_V, class P_M> class RV, class P_V, class P_M>
+template <template <class P_V, class P_M> class RV, class P_V, class P_M>
 double estimateMI_ANN( const RV<P_V,P_M>& jointRV,
 		       const unsigned int xDimSel[], unsigned int dimX,
 		       const unsigned int yDimSel[], unsigned int dimY,
@@ -71,7 +70,7 @@ double estimateMI_ANN( const RV<P_V,P_M>& jointRV,
 // Function: estimateMI_ANN (using two seperate RVs)
 // (Mutual Information)
 //*****************************************************
-template<class P_V, class P_M,
+template <class P_V, class P_M,
   template <class P_V, class P_M> class RV_1,
   template <class P_V, class P_M> class RV_2>
 double estimateMI_ANN( const RV_1<P_V,P_M>& xRV,

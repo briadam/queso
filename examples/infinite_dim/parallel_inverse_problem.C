@@ -3,10 +3,6 @@
 #include <string>
 #include <sstream>
 
-// GSL includes
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-
 // Boost includes
 #include <boost/math/constants/constants.hpp>
 
@@ -23,6 +19,7 @@
 #include <libmesh/explicit_system.h>
 
 // QUESO includes
+#include <queso/Defines.h>
 #include <queso/FunctionOperatorBuilder.h>
 #include <queso/LibMeshFunction.h>
 #include <queso/LibMeshNegativeLaplacianOperator.h>
@@ -30,6 +27,10 @@
 #include <queso/InfiniteDimensionalLikelihoodBase.h>
 #include <queso/InfiniteDimensionalMCMCSamplerOptions.h>
 #include <queso/InfiniteDimensionalMCMCSampler.h>
+
+// GSL includes
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>
 
 // The likelihood object subclass
 class Likelihood : public QUESO::InfiniteDimensionalLikelihoodBase
@@ -72,7 +73,16 @@ int main(int argc, char **argv) {
 
   MPI_Init(&argc, &argv);
 
-  QUESO::FullEnvironment env(MPI_COMM_WORLD, "infinite_dim/parallel_inverse_options", "", NULL);
+  QUESO::FullEnvironment env(MPI_COMM_WORLD, argv[1], "", NULL);
+
+#ifndef QUESO_HAVE_HDF5
+  std::cerr << "Cannot run infinite dimensional inverse problems\n" <<
+               "without HDF5 enabled." << std::endl;
+
+  MPI_Finalize();
+
+  return 0;
+#else
 
   // When the number of processes passed to `mpirun` is different from the
   // number of subenvironments asked for in the input file, QUESO creates a
@@ -143,6 +153,8 @@ int main(int argc, char **argv) {
     }
   }
 }
+
+#endif // QUESO_HAVE_HDF5
 
   MPI_Finalize();
 

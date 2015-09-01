@@ -31,9 +31,11 @@
 #include <queso/VectorCdf.h>
 #include <queso/VectorMdf.h>
 #include <queso/SequenceOfVectors.h>
-#include <gsl/gsl_sf_psi.h> // todo: take specificity of gsl_, i.e., make it general (gsl or boost or etc)
 
 namespace QUESO {
+
+class GslVector;
+class GslMatrix;
 
 /*!
  * \class JeffreysVectorRV
@@ -42,7 +44,7 @@ namespace QUESO {
  * This class allows the user to compute the value of a jeffreys PDF and to generate realizations
  * (samples) from it. It is used, for instance, to create a jeffreys prior PDF. */
 
-template<class V, class M>
+template <class V = GslVector, class M = GslMatrix>
 class JeffreysVectorRV : public BaseVectorRV<V,M> {
 public:
 

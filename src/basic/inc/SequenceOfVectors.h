@@ -31,6 +31,9 @@
 
 namespace QUESO {
 
+class GslVector;
+class GslMatrix;
+
 /*! \file SequenceofVectors.h
  * \brief A templated class for handling vector samples
  *
@@ -42,7 +45,7 @@ namespace QUESO {
  * correlation and covariance matrices. It is derived from and implements
  * BaseVectorSequence<V,M>.*/
 
-template <class V, class M>
+template <class V = GslVector, class M = GslMatrix>
 class SequenceOfVectors : public BaseVectorSequence<V,M>
 {
 public:
@@ -407,6 +410,21 @@ private:
                                            unsigned int                         numPos,
                                            unsigned int                         paramId,
                                            std::vector<double>&                 rawData) const;
+
+  //! Helper function to write matlab-specific header info for vectors
+  void writeSubMatlabHeader(std::ofstream & ofs,
+                            double sequenceSize,
+                            double vectorSizeLocal) const;
+
+  void writeUnifiedMatlabHeader(std::ofstream & ofs,
+                                double sequenceSize,
+                                double vectorSizeLocal) const;
+
+  //! Helper function to write plain txt info for vectors
+  void writeTxtHeader(std::ofstream & ofs,
+                      double sequenceSize,
+                      double vectorSizeLocal) const;
+
 
   using BaseVectorSequence<V,M>::m_env;
   using BaseVectorSequence<V,M>::m_vectorSpace;
